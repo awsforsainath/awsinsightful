@@ -32,7 +32,7 @@ pipeline {
             steps {
                 sshagent(['your-ec2-key']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ec2-54-206-50-253.ap-southeast-2.compute.amazonaws.com <<EOF
+                        ssh -o StrictHostKeyChecking=no ec2-13-238-168-91.ap-southeast-2.compute.amazonaws.com <<EOF
                         docker pull awsforsainath/awsinsightful:latest
                         docker stop awsinsightful || true
                         docker rm awsinsightful || true
