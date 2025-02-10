@@ -20,9 +20,12 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                withDockerRegistry([awsforsainath: 'dckr_pat_jKrQdHkCaRh2RasVpG77md07YdM']) {
-                    sh 'docker tag awsinsightful awsforsainath/awsinsightful'
-                    sh 'docker push awsforsainath/awsinsightful'
+               withDockerRegistry([credentialsId: 'docker-hub-credentials', url: 'https://index.docker.io/v1/']) {
+    // Docker commands (build, push, etc.)
+    sh 'docker build -t awsforsainath/myimage:latest .'
+    sh 'docker push awsforsainath/myimage:latest'
+}
+
                 }
             }
         }
