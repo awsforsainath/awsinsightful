@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub-creds')
+        DOCKERHUB_CREDENTIALS = credentials('docker-hub-creds')  // Ensure this matches your credential ID
     }
 
     stages {
@@ -14,18 +14,16 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t awsinsightful .'
+                // Building Docker image
+                sh 'docker build -t awsforsainath/awsinsightful .'
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
-               withDockerRegistry([credentialsId: 'docker-hub-credentials', url: 'https://index.docker.io/v1/']) {
-    // Docker commands (build, push, etc.)
-    sh 'docker build -t awsforsainath/myimage:latest .'
-    sh 'docker push awsforsainath/myimage:latest'
-}
-
+                // Push image to Docker Hub with credentials
+                withDockerRegistry([credentialsId: 'docker-hub-creds', url: 'https://index.docker.io/v1/']) {
+                    sh 'docker push awsforsainath/awsinsightful:latest'
                 }
             }
         }
@@ -35,10 +33,10 @@ pipeline {
                 sshagent(['your-ec2-key']) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ec2-54-206-50-253.ap-southeast-2.compute.amazonaws.com <<EOF
-                        docker pull awsforsainath/awsinsightful
+                        docker pull awsforsainath/awsinsightful:latest
                         docker stop awsinsightful || true
                         docker rm awsinsightful || true
-                        docker run -d -p 80:80 --name awsinsightful awsforsainath/awsinsightful
+                        docker run -d -p 80:80 --name awsinsightful awsforsainath/awsinsightful:latest
                         EOF
                     '''
                 }
