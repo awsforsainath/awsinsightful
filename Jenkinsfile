@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = 'your-wordpress-custom'
+        IMAGE_NAME = 'wordpress:latest'
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
     }
     stages {
