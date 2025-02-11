@@ -30,7 +30,8 @@ pipeline {
                 script {
                     echo "Building Docker image: ${env.IMAGE_NAME}"
                     try {
-                       docker build -t ${env.IMAGE_NAME} 
+                        // Ensure Dockerfile context is provided, typically '.' or a specific folder
+                        sh "docker build -t ${env.IMAGE_NAME} ."
                     } catch (Exception e) {
                         error "Docker build failed: ${e.message}"
                     }
