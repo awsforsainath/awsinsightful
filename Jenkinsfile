@@ -30,7 +30,7 @@ pipeline {
                 script {
                     echo "Building Docker image: ${env.IMAGE_NAME}"
                     try {
-                        docker.build("${env.IMAGE_NAME}")
+                       docker build -t ${env.IMAGE_NAME} 
                     } catch (Exception e) {
                         error "Docker build failed: ${e.message}"
                     }
